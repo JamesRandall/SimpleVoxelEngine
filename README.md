@@ -1,6 +1,6 @@
 # Simple Voxel Engine
 
-The code here is the result of a couple of days of free time over the 2016 Christmas break. Both the look and constructible / destructible feel of [voxels](https://en.wikipedia.org/wiki/Voxel) have always appealed to me perhaps as a result of a childhood playing with Lego and I felt like doing some fun, completely none work related, coding and so I rolled up my sleeves and started coding. Did I have fun? Yup - this was a super fun little project to play with.
+The code here is the result of a three or four days of free time over the 2016 Christmas break. Both the look and constructible / destructible feel of [voxels](https://en.wikipedia.org/wiki/Voxel) have always appealed to me perhaps as a result of a childhood playing with Lego and I felt like doing some fun, completely none work related, coding and so I rolled up my sleeves and started coding. Did I have fun? Yup - this was a super fun little project to play with.
 
 As this was all about having fun and getting back to basics I stayed away from existing game engines and so other than the STL and some bootstrap OpenGL libraries ([glfw](http://www.glfw.org), [glad](http://glad.dav1d.de) and [glm](http://glm.g-truc.net/0.9.8/index.html)) this is all written from the ground up.
 
