@@ -37,6 +37,7 @@ I'll keep working on this as long as it is fun to do so and I've got a couple of
 * Mac / *nix support
 * General optimisation. I've only done the really low hanging fruit so far and there is scope for improvement everywhere. Both OpenGL use and memory management are currently very naive. That said I'm likely to focus on clarity of code and ease of change over raw performance.
 * Voxel sprite support
+* Shadows
 * Skybox / fog support
 * Paging / virtualisation - with this in mind this is one of the main reasons that scenes are constructed using the chunk factory
 * Level of detail support
