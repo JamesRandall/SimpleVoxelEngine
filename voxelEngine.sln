@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26014.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "voxelEngine", "voxelEngine\voxelEngine.vcxproj", "{1E4DA0F4-01C6-48C4-942F-D6EC2FA0DD2A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{8F1DF634-BD59-481F-B8CE-D60E40C31BA9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "perlinLandscape", "examples\perlinLandscape\perlinLandscape.vcxproj", "{408D7086-63BC-4C87-B780-50674075BA71}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bwImageHeightMap", "examples\bwImageHeightMap\bwImageHeightMap.vcxproj", "{90FE57C4-1F2B-4C98-A680-620F60D9EA12}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1E4DA0F4-01C6-48C4-942F-D6EC2FA0DD2A}.Debug|x64.ActiveCfg = Debug|x64
+		{1E4DA0F4-01C6-48C4-942F-D6EC2FA0DD2A}.Debug|x64.Build.0 = Debug|x64
+		{1E4DA0F4-01C6-48C4-942F-D6EC2FA0DD2A}.Debug|x86.ActiveCfg = Debug|Win32
+		{1E4DA0F4-01C6-48C4-942F-D6EC2FA0DD2A}.Debug|x86.Build.0 = Debug|Win32
+		{1E4DA0F4-01C6-48C4-942F-D6EC2FA0DD2A}.Release|x64.ActiveCfg = Release|x64
+		{1E4DA0F4-01C6-48C4-942F-D6EC2FA0DD2A}.Release|x64.Build.0 = Release|x64
+		{1E4DA0F4-01C6-48C4-942F-D6EC2FA0DD2A}.Release|x86.ActiveCfg = Release|Win32
+		{1E4DA0F4-01C6-48C4-942F-D6EC2FA0DD2A}.Release|x86.Build.0 = Release|Win32
+		{408D7086-63BC-4C87-B780-50674075BA71}.Debug|x64.ActiveCfg = Debug|x64
+		{408D7086-63BC-4C87-B780-50674075BA71}.Debug|x64.Build.0 = Debug|x64
+		{408D7086-63BC-4C87-B780-50674075BA71}.Debug|x86.ActiveCfg = Debug|Win32
+		{408D7086-63BC-4C87-B780-50674075BA71}.Debug|x86.Build.0 = Debug|Win32
+		{408D7086-63BC-4C87-B780-50674075BA71}.Release|x64.ActiveCfg = Release|x64
+		{408D7086-63BC-4C87-B780-50674075BA71}.Release|x64.Build.0 = Release|x64
+		{408D7086-63BC-4C87-B780-50674075BA71}.Release|x86.ActiveCfg = Release|Win32
+		{408D7086-63BC-4C87-B780-50674075BA71}.Release|x86.Build.0 = Release|Win32
+		{90FE57C4-1F2B-4C98-A680-620F60D9EA12}.Debug|x64.ActiveCfg = Debug|x64
+		{90FE57C4-1F2B-4C98-A680-620F60D9EA12}.Debug|x64.Build.0 = Debug|x64
+		{90FE57C4-1F2B-4C98-A680-620F60D9EA12}.Debug|x86.ActiveCfg = Debug|Win32
+		{90FE57C4-1F2B-4C98-A680-620F60D9EA12}.Debug|x86.Build.0 = Debug|Win32
+		{90FE57C4-1F2B-4C98-A680-620F60D9EA12}.Release|x64.ActiveCfg = Release|x64
+		{90FE57C4-1F2B-4C98-A680-620F60D9EA12}.Release|x64.Build.0 = Release|x64
+		{90FE57C4-1F2B-4C98-A680-620F60D9EA12}.Release|x86.ActiveCfg = Release|Win32
+		{90FE57C4-1F2B-4C98-A680-620F60D9EA12}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{408D7086-63BC-4C87-B780-50674075BA71} = {8F1DF634-BD59-481F-B8CE-D60E40C31BA9}
+		{90FE57C4-1F2B-4C98-A680-620F60D9EA12} = {8F1DF634-BD59-481F-B8CE-D60E40C31BA9}
+	EndGlobalSection
+EndGlobal
