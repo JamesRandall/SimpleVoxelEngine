@@ -16,9 +16,9 @@ Before anyone leans on this code too heavily its worth noting that I haven't wri
 
 There are two included examples:
 
-* bwImageHeightMap - this takes a black and white image, converts it to a height map, and renders it as voxels. You can move around the scene with the keyboard and mouse. (Video here)[https://www.youtube.com/watch?v=aETUvjQp-yc].
-* perlinLandscape - generates a height map using (perlin noise)[https://en.wikipedia.org/wiki/Perlin_noise] and creates a simple landscape from it.
-![alt text](https://raw.githubusercontent.com/JamesRandall/SimpleVoxelEngine/screenshots/perlinNoiseLandscape.png "Perlin noise demo")
+* bwImageHeightMap - this takes a black and white image, converts it to a height map, and renders it as voxels. You can move around the scene with the keyboard and mouse. [Video here](https://www.youtube.com/watch?v=aETUvjQp-yc).
+* perlinLandscape - generates a height map using [perlin noise](https://en.wikipedia.org/wiki/Perlin_noise) and creates a simple landscape from it.
+![Perlin noise demo](https://github.com/JamesRandall/SimpleVoxelEngine/blob/master/screenshots/perlinNoiseLandscape.png)
 
 ## Using the engine
 
