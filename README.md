@@ -6,7 +6,7 @@ As this was all about having fun and getting back to basics I stayed away from e
 
 At the end of day 3 I had a couple of nice demos of basic rendering that you can see in the "self-portrait" video and screenshots below.
 
-[![Video of the photo height map demo](https://raw.githubusercontent.com/JamesRandall/SimpleVoxelEngine/screenshots/photoHeightMapVideo.png)](https://www.youtube.com/watch?v=aETUvjQp-yc)
+[![Video of the photo height map demo](https://github.com/JamesRandall/SimpleVoxelEngine/blob/master/screenshots/photoHeightMapVideo.png)](https://www.youtube.com/watch?v=aETUvjQp-yc)
 (links to YouTube)
 
 Before anyone leans on this code too heavily its worth noting that I haven't written C++ in anger since about 1998 (though I have continued to do a reasonable amount of C) and although I've done some basic 3d work over the years have only used OpenGL in an extremely basic sense. That said if you do want to use it the below may help.
