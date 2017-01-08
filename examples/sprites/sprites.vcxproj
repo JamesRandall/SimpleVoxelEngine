@@ -19,33 +19,33 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{1E4DA0F4-01C6-48C4-942F-D6EC2FA0DD2A}</ProjectGuid>
+    <ProjectGuid>{0E8F7130-75DB-4563-9D16-EF53B5245BF4}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>voxelEngine</RootNamespace>
+    <RootNamespace>perlinLandscape</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -70,7 +70,16 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(ProjectDir)\lib\$(Configuration)\</OutDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -78,18 +87,19 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\depends\include;.\include;.\src</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../depends/include;../../voxelEngine/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>..\..\depends\lib\glfw</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <Lib>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Lib>
-    <Lib>
-      <AdditionalLibraryDirectories>..\depends\lib\glfw;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-    </Lib>
+    <PostBuildEvent>
+      <Command>if not exist "$(OutDir)shaders" mkdir "$(OutDir)shaders"
+copy "$(SolutionDir)voxelEngine\src\shaders" "$(OutDir)shaders"
+copy "$(ProjectDir)*.vox" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -97,16 +107,19 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\depends\include;.\include;.\src</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../depends/include;../../voxelEngine/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>..\..\depends\lib\glfw</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <Lib>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\depends\lib\glfw;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-    </Lib>
+    <PostBuildEvent>
+      <Command>if not exist "$(OutDir)shaders" mkdir "$(OutDir)shaders"
+copy "$(SolutionDir)voxelEngine\src\shaders" "$(OutDir)shaders"
+copy "$(ProjectDir)*.vox" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -116,18 +129,21 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\depends\include;.\include;.\src</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../depends/include;../../voxelEngine/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>..\..\depends\lib\glfw</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <Lib>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\depends\lib\glfw;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-    </Lib>
+    <PostBuildEvent>
+      <Command>if not exist "$(OutDir)shaders" mkdir "$(OutDir)shaders"
+copy "$(SolutionDir)voxelEngine\src\shaders" "$(OutDir)shaders"
+copy "$(ProjectDir)*.vox" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -137,76 +153,38 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\depends\include;.\include;.\src</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../depends/include;../../voxelEngine/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>..\..\depends\lib\glfw</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <Lib>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\depends\lib\glfw;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-    </Lib>
+    <PostBuildEvent>
+      <Command>if not exist "$(OutDir)shaders" mkdir "$(OutDir)shaders"
+copy "$(SolutionDir)voxelEngine\src\shaders" "$(OutDir)shaders"
+copy "$(ProjectDir)*.vox" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\BehaviourFactory.h" />
-    <ClInclude Include="include\color.h" />
-    <ClInclude Include="include\GeometryUpdateRequest.h" />
-    <ClInclude Include="include\ICamera.h" />
-    <ClInclude Include="include\ICameraControllerInput.h" />
-    <ClInclude Include="include\IChunk.h" />
-    <ClInclude Include="include\IChunkFactory.h" />
-    <ClInclude Include="include\IChunkManager.h" />
-    <ClInclude Include="include\ILightSource.h" />
-    <ClInclude Include="include\ISprite.h" />
-    <ClInclude Include="include\ISpriteManager.h" />
-    <ClInclude Include="include\ISpriteVoxel.h" />
-    <ClInclude Include="include\IVoxel.h" />
-    <ClInclude Include="include\IVoxelContainer.h" />
-    <ClInclude Include="include\SimpleLight.h" />
-    <ClInclude Include="include\VoxelEngine.h" />
-    <ClInclude Include="include\VoxelEngineException.h" />
-    <ClInclude Include="include\worldSize.h" />
-    <ClInclude Include="include\ISpriteBehaviour.h" />
-    <ClInclude Include="src\FrameCounter.h" />
-    <ClInclude Include="src\SpriteManager.h" />
-    <ClInclude Include="src\SpriteVoxel.h" />
-    <ClInclude Include="src\Camera.h" />
-    <ClInclude Include="include\Chunk.h" />
-    <ClInclude Include="src\VoxelContainerGeometry.h" />
-    <ClInclude Include="src\ChunkManager.h" />
-    <ClInclude Include="src\VoxelRenderer.h" />
-    <ClInclude Include="src\Controls.hpp" />
-    <ClInclude Include="include\MouseAndKeyboardCameraControllerInput.h" />
-    <ClInclude Include="src\NotImplementedException.h" />
-    <ClInclude Include="src\ShaderManager.h" />
-    <ClInclude Include="src\targetver.h" />
-    <ClInclude Include="include\UniformChunk.h" />
-    <ClInclude Include="src\VoxelGeometry.h" />
-    <ClInclude Include="src\VoxelSprite.h" />
-    <ClInclude Include="src\behaviours\VoxelatedConstructionSpriteBehaviour.h" />
+    <ClInclude Include="TerrainChunkFactory.h" />
+    <ClInclude Include="TerrainVoxel.h" />
+    <ClInclude Include="Voxels.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\depends\src\glad\glad.c" />
-    <ClCompile Include="src\BehaviourFactory.cpp" />
-    <ClCompile Include="src\SpriteManager.cpp" />
-    <ClCompile Include="src\Camera.cpp" />
-    <ClCompile Include="src\Chunk.cpp" />
-    <ClCompile Include="src\VoxelContainerGeometry.cpp" />
-    <ClCompile Include="src\ChunkManager.cpp" />
-    <ClCompile Include="src\VoxelRenderer.cpp" />
-    <ClCompile Include="src\Controls.cpp" />
-    <ClCompile Include="src\ISprite.cpp" />
-    <ClCompile Include="src\IVoxel.cpp" />
-    <ClCompile Include="src\MouseAndKeyboardCameraControllerInput.cpp" />
-    <ClCompile Include="src\ShaderManager.cpp" />
-    <ClCompile Include="src\UniformChunk.cpp" />
-    <ClCompile Include="src\VoxelEngine.cpp" />
-    <ClCompile Include="src\VoxelGeometry.cpp" />
-    <ClCompile Include="src\VoxelSprite.cpp" />
-    <ClCompile Include="src\behaviours\VoxelatedConstructionSpriteBehaviour.cpp" />
+    <ClCompile Include="sprites.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="TerrainChunkFactory.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\voxelEngine\voxelEngine.vcxproj">
+      <Project>{1e4da0f4-01c6-48c4-942f-d6ec2fa0dd2a}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

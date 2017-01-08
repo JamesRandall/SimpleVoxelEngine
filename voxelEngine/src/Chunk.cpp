@@ -1,7 +1,9 @@
 #include "Chunk.h"
-#include "ChunkGeometry.h"
+#include "VoxelContainerGeometry.h"
 #include "VoxelGeometry.h"
-#include "ChunkRenderer.h"
+#include "VoxelRenderer.h"
+#include "IChunkManager.h"
+#include "VoxelEngineException.h"
 
 Chunk::Chunk(const std::vector<std::shared_ptr<IVoxel>>& voxels)
 {
@@ -12,7 +14,7 @@ Chunk::~Chunk()
 {
 }
 
-const std::shared_ptr<IVoxel>& Chunk::getVoxel(unsigned int x, unsigned int y, unsigned int z) const
+std::shared_ptr<IVoxel> Chunk::getVoxel(unsigned int x, unsigned int y, unsigned int z) const
 {
 	unsigned int index = getVoxelIndex(x, y, z);
 	return _voxels[index];
@@ -40,13 +42,13 @@ void Chunk::forEachVoxel(const forEachVoxelFunction& func, bool includeNull) con
 
 void Chunk::rebuildGeometry(const IChunkManager& chunkManager, unsigned int chunkX, unsigned int chunkY, unsigned int chunkZ)
 {
-	_chunkGeometry = std::make_shared<ChunkGeometry>(chunkManager, *this, chunkX, chunkY, chunkZ);	
+	_chunkGeometry = std::make_shared<VoxelContainerGeometry>(chunkManager, *this, chunkX, chunkY, chunkZ);	
 }
 
 void Chunk::prepareRenderer()
 {
 	if (_chunkGeometry == nullptr) return;
-	_chunkRenderer = std::make_shared<ChunkRenderer>();
+	_chunkRenderer = std::make_shared<VoxelRenderer>();
 	_chunkRenderer->buildBuffers(*_chunkGeometry);
 }
 

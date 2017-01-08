@@ -11,9 +11,10 @@ struct cameraConfiguration
 	float verticalAngle;
 	float fieldOfView;
 	float range;
+	float ratio;
 
-	cameraConfiguration(float x=0, float y=0, float z=0, float horizontalAngle=0, float verticalAngle=0, float fieldOfView=60, float range=100) :
-		x(x), y(y), z(z), horizontalAngle(horizontalAngle), verticalAngle(verticalAngle), fieldOfView(fieldOfView), range(range) { }
+	cameraConfiguration(float x=0, float y=0, float z=0, float horizontalAngle=0, float verticalAngle=0, float fieldOfView=60, float range=100, float ratio=4.0f/3.0f) :
+		x(x), y(y), z(z), horizontalAngle(horizontalAngle), verticalAngle(verticalAngle), fieldOfView(fieldOfView), range(range), ratio(ratio) { }
 };
 
 class ICamera

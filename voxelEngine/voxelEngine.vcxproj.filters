@@ -35,13 +35,7 @@
     <ClInclude Include="src\Camera.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ChunkGeometry.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\ChunkManager.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ChunkRenderer.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Controls.hpp">
@@ -75,6 +69,24 @@
     <ClInclude Include="include\UniformChunk.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\ISprite.h" />
+    <ClInclude Include="src\VoxelSprite.h" />
+    <ClInclude Include="src\SpriteVoxel.h" />
+    <ClInclude Include="include\ISpriteVoxel.h" />
+    <ClInclude Include="include\IVoxelContainer.h" />
+    <ClInclude Include="src\VoxelContainerGeometry.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VoxelRenderer.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SpriteManager.h" />
+    <ClInclude Include="include\ISpriteBehaviour.h" />
+    <ClInclude Include="include\BehaviourFactory.h" />
+    <ClInclude Include="src\behaviours\VoxelatedConstructionSpriteBehaviour.h" />
+    <ClInclude Include="include\ISpriteManager.h" />
+    <ClInclude Include="src\FrameCounter.h" />
+    <ClInclude Include="include\GeometryUpdateRequest.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Camera.cpp">
@@ -83,13 +95,7 @@
     <ClCompile Include="src\Chunk.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ChunkGeometry.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\ChunkManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ChunkRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Controls.cpp">
@@ -112,5 +118,16 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\IVoxel.cpp" />
+    <ClCompile Include="src\VoxelSprite.cpp" />
+    <ClCompile Include="src\ISprite.cpp" />
+    <ClCompile Include="src\VoxelContainerGeometry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VoxelRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SpriteManager.cpp" />
+    <ClCompile Include="src\BehaviourFactory.cpp" />
+    <ClCompile Include="src\behaviours\VoxelatedConstructionSpriteBehaviour.cpp" />
   </ItemGroup>
 </Project>

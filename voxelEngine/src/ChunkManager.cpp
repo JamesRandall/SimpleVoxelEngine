@@ -5,6 +5,7 @@
 #include "IChunkFactory.h"
 #include "VoxelGeometry.h"
 #include "Camera.h"
+#include "VoxelEngineException.h"
 
 ChunkManager::ChunkManager(const std::shared_ptr<IChunkFactory>& chunkFactory, unsigned int chunksAcross, unsigned int chunksUp, unsigned int chunksDeep)
 {
@@ -45,7 +46,7 @@ const std::shared_ptr<IChunk>& ChunkManager::getChunkWithVoxelCoordinates(unsign
 	return getChunkWithChunkCoordinates(chunkX, chunkY, chunkZ);
 }
 
-const std::shared_ptr<IVoxel>& ChunkManager::getVoxel(unsigned int x, unsigned int y, unsigned int z) const
+std::shared_ptr<IVoxel> ChunkManager::getVoxel(unsigned int x, unsigned int y, unsigned int z) const
 {
 	unsigned int voxelX = x % IChunk::Width;
 	unsigned int voxelY = y % IChunk::Height;
@@ -73,6 +74,11 @@ void ChunkManager::forEachChunk(const forEachChunkFunction& func) const
 			}
 		}
 	}
+}
+
+void ChunkManager::forEachVoxel(const forEachVoxelFunction& func, bool includeNull) const
+{
+	throw VoxelEngineException("Not implemented");
 }
 
 void ChunkManager::render(const ICamera& camera, const ILightSource& light) const
@@ -153,6 +159,7 @@ void ChunkManager::rebuildGeometry()
 	});
 	rebuildComplete.wait(rebuildCompleteLock);
 
+	// this has to be done in the main open gl thread otherwise the buffers will not be visible to the render cycle
 	std::for_each(std::begin(_chunksRequiringRebuild), std::end(_chunksRequiringRebuild), [](const std::shared_ptr<ChunkRebuildInstruction>& instruction)
 	{
 		instruction->chunk->prepareRenderer();

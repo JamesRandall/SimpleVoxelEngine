@@ -13,4 +13,6 @@ public:
 		float colorValue = static_cast<float>(_color) / 255.0f;
 		return color(colorValue, colorValue, colorValue);
 	};
+
+	bool getIsActive() const override { return true; }
 };

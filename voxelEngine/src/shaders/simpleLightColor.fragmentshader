@@ -7,6 +7,7 @@ in vec3 Normal_cameraspace;
 in vec3 EyeDirection_cameraspace;
 in vec3 LightDirection_cameraspace;
 in vec3 fragmentColor;
+in vec2 shouldDiscard;
 
 // Ouput data
 out vec3 color;
@@ -19,6 +20,8 @@ uniform float LightPower;
 uniform vec3 LightColor;
 
 void main(){
+
+	if (shouldDiscard.x == 0.0) discard;
 
 	// Light emission properties
 	// You probably want to put them as uniforms
@@ -59,5 +62,4 @@ void main(){
 		MaterialDiffuseColor * LightColor * LightPower * cosTheta / (distance*distance) +
 		// Specular : reflective highlight, like a mirror
 		MaterialSpecularColor * LightColor * LightPower * pow(cosAlpha,5) / (distance*distance);
-
 }

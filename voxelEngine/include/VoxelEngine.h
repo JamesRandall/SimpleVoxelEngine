@@ -7,8 +7,12 @@
 #include "IChunkFactory.h"
 #include "IChunkManager.h"
 #include "ILightSource.h"
+#include "ISprite.h"
+#include "ISpriteManager.h"
 
 struct GLFWwindow;
+
+class SpriteManager;
 
 class VoxelEngine
 {
@@ -17,6 +21,7 @@ class VoxelEngine
 	std::shared_ptr<ICamera> _camera;
 	std::shared_ptr<ICameraControllerInput> _cameraInputController;
 	std::shared_ptr<ILightSource> _lightSource;
+	std::shared_ptr<SpriteManager> _spriteManager;
 	double _lastTickTime;
 public:
 	VoxelEngine(GLFWwindow* window,
@@ -29,5 +34,7 @@ public:
 	~VoxelEngine();
 	void tick();
 	worldSize getWorldSize() const { return worldSize(_chunkManager->getWidth() * IChunk::Width, _chunkManager->getHeight() * IChunk::Height, _chunkManager->getDepth() * IChunk::Depth); }
+	void addSprite(const std::shared_ptr<ISprite>& sprite) const;
+	std::shared_ptr<ISpriteManager> getSpriteManager() const;
 };
 

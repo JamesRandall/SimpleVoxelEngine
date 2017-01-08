@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "perlinLandscape", "examples
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bwImageHeightMap", "examples\bwImageHeightMap\bwImageHeightMap.vcxproj", "{90FE57C4-1F2B-4C98-A680-620F60D9EA12}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sprites", "examples\sprites\sprites.vcxproj", "{0E8F7130-75DB-4563-9D16-EF53B5245BF4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -43,6 +45,14 @@ Global
 		{90FE57C4-1F2B-4C98-A680-620F60D9EA12}.Release|x64.Build.0 = Release|x64
 		{90FE57C4-1F2B-4C98-A680-620F60D9EA12}.Release|x86.ActiveCfg = Release|Win32
 		{90FE57C4-1F2B-4C98-A680-620F60D9EA12}.Release|x86.Build.0 = Release|Win32
+		{0E8F7130-75DB-4563-9D16-EF53B5245BF4}.Debug|x64.ActiveCfg = Debug|x64
+		{0E8F7130-75DB-4563-9D16-EF53B5245BF4}.Debug|x64.Build.0 = Debug|x64
+		{0E8F7130-75DB-4563-9D16-EF53B5245BF4}.Debug|x86.ActiveCfg = Debug|Win32
+		{0E8F7130-75DB-4563-9D16-EF53B5245BF4}.Debug|x86.Build.0 = Debug|Win32
+		{0E8F7130-75DB-4563-9D16-EF53B5245BF4}.Release|x64.ActiveCfg = Release|x64
+		{0E8F7130-75DB-4563-9D16-EF53B5245BF4}.Release|x64.Build.0 = Release|x64
+		{0E8F7130-75DB-4563-9D16-EF53B5245BF4}.Release|x86.ActiveCfg = Release|Win32
+		{0E8F7130-75DB-4563-9D16-EF53B5245BF4}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,5 +60,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{408D7086-63BC-4C87-B780-50674075BA71} = {8F1DF634-BD59-481F-B8CE-D60E40C31BA9}
 		{90FE57C4-1F2B-4C98-A680-620F60D9EA12} = {8F1DF634-BD59-481F-B8CE-D60E40C31BA9}
+		{0E8F7130-75DB-4563-9D16-EF53B5245BF4} = {8F1DF634-BD59-481F-B8CE-D60E40C31BA9}
 	EndGlobalSection
 EndGlobal

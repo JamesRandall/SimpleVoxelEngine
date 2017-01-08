@@ -25,7 +25,7 @@ class Camera : public ICamera
 
 public:
 	Camera();
-	Camera(float x, float y, float z, float horizontalAngle, float verticalAngle, float fieldOfView, float range);
+	Camera(float x, float y, float z, float horizontalAngle, float verticalAngle, float fieldOfView, float range, float ratio= 4.0f / 3.0f);
 	virtual ~Camera();
 
 	glm::mat4 getViewMatrix() const override { return _viewMatrix; }

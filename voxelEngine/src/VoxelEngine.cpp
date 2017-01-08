@@ -5,6 +5,8 @@
 #include "ICameraControllerInput.h"
 #include "ChunkManager.h"
 #include "Camera.h"
+#include "SpriteManager.h"
+#include "FrameCounter.h"
 
 VoxelEngine::VoxelEngine(GLFWwindow* window,
 	std::string shaderPath,
@@ -14,11 +16,12 @@ VoxelEngine::VoxelEngine(GLFWwindow* window,
 	const std::shared_ptr<ICameraControllerInput>& cameraInputController,
 	const std::shared_ptr<ILightSource>& lightSource) :
 		_window(window),
-		_chunkManager(std::make_shared<ChunkManager>(chunkFactory, worldSize.voxelsWide/IChunk::Width, worldSize.voxelsHigh/IChunk::Height, worldSize.voxelsDeep/IChunk::Depth)),
-		_camera(std::make_shared<Camera>(cameraConfiguration.x, cameraConfiguration.y, cameraConfiguration.z, cameraConfiguration.horizontalAngle, cameraConfiguration.verticalAngle, cameraConfiguration.fieldOfView, cameraConfiguration.range)),
+		_chunkManager(chunkFactory == nullptr ? nullptr : std::make_shared<ChunkManager>(chunkFactory, worldSize.voxelsWide/IChunk::Width, worldSize.voxelsHigh/IChunk::Height, worldSize.voxelsDeep/IChunk::Depth)),
+		_camera(std::make_shared<Camera>(cameraConfiguration.x, cameraConfiguration.y, cameraConfiguration.z, cameraConfiguration.horizontalAngle, cameraConfiguration.verticalAngle, cameraConfiguration.fieldOfView, cameraConfiguration.range, cameraConfiguration.ratio)),
 		_cameraInputController(cameraInputController),
-		_lastTickTime(-1),
-		_lightSource(lightSource)
+		_lightSource(lightSource),
+		_spriteManager(std::make_shared<SpriteManager>()),
+		_lastTickTime(-1)
 {
 	ShaderManager::init(shaderPath);
 }
@@ -29,12 +32,48 @@ VoxelEngine::~VoxelEngine()
 
 void VoxelEngine::tick()
 {
+	static FrameCounter frameCounter;
+	frameCounter.tick();
+
 	double frameCurrentTime = glfwGetTime();
 	float timeDelta = _lastTickTime < 0 ? 0.0f : static_cast<float>(frameCurrentTime - _lastTickTime);
-	_lastTickTime = frameCurrentTime;
-
+	
 	_cameraInputController->update(timeDelta);
 	_camera->update(*_cameraInputController);
-	_chunkManager->tick(timeDelta);
-	_chunkManager->render(*_camera, *_lightSource);
+	if (_chunkManager != nullptr)
+	{
+		_chunkManager->tick(timeDelta);		
+	}
+	if (_spriteManager != nullptr)
+	{
+		_spriteManager->tick(timeDelta);
+	}
+
+	if (_chunkManager != nullptr)
+	{
+		_chunkManager->render(*_camera, *_lightSource);
+	}
+	if (_spriteManager != nullptr)
+	{
+		_spriteManager->render(*_camera, *_lightSource);
+	}
+
+	if (_lastTickTime < 0)
+	{
+		_lastTickTime = glfwGetTime();
+	}
+	else
+	{
+		_lastTickTime = frameCurrentTime;
+	}	
+}
+
+void VoxelEngine::addSprite(const std::shared_ptr<ISprite>& sprite) const
+{
+	_spriteManager->addSprite(sprite);
+}
+
+std::shared_ptr<ISpriteManager> VoxelEngine::getSpriteManager() const
+{
+	return _spriteManager;
 }

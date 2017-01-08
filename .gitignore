@@ -3,3 +3,5 @@ Debug
 Release
 .vs
 .DS_Store
+voxelEngine.VC.db
+*.VC.opendb
