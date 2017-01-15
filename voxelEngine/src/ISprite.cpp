@@ -83,7 +83,9 @@ void readChunk(std::ifstream& spriteStream, voxChunk& voxChunk)
 	voxChunk.end = static_cast<int>(spriteStream.tellg()) + voxChunk.contentSize + voxChunk.childrenSize;
 }
 
-std::shared_ptr<ISprite> ISprite::load(std::string spriteFilename)
+unsigned int getVoxelIndex(spriteSize size, unsigned int x, unsigned int y, unsigned int z) { return z * size.height * size.width + y * size.width + x; }
+
+std::shared_ptr<std::vector<std::shared_ptr<ISpriteVoxel>>> loadSpriteVoxels(std::string spriteFilename, spriteSize& voxelSpriteSize)
 {
 	const int ID_VOX = MV_ID('V', 'O', 'X', ' ');
 	const int ID_MAIN = MV_ID('M', 'A', 'I', 'N');
@@ -96,7 +98,7 @@ std::shared_ptr<ISprite> ISprite::load(std::string spriteFilename)
 	MV_RGBA palette[256];
 
 	memcpy(palette, mv_default_palette, sizeof(mv_default_palette));
-	
+
 	std::ifstream spriteStream(spriteFilename, std::ios::in | std::ios::binary);
 	if (!spriteStream.is_open())
 	{
@@ -128,7 +130,7 @@ std::shared_ptr<ISprite> ISprite::load(std::string spriteFilename)
 	}
 	spriteStream.seekg(mainChunk.contentSize, std::ios::cur);
 
-	while(spriteStream.tellg() < mainChunk.end)
+	while (spriteStream.tellg() < mainChunk.end)
 	{
 		voxChunk subChunk;
 		readChunk(spriteStream, subChunk);
@@ -143,7 +145,7 @@ std::shared_ptr<ISprite> ISprite::load(std::string spriteFilename)
 		else if (subChunk.id == ID_XYZI) {
 			// numVoxels
 			int numVoxels;
-			spriteStream.read(reinterpret_cast<char*>(&numVoxels), sizeof(int));			
+			spriteStream.read(reinterpret_cast<char*>(&numVoxels), sizeof(int));
 			if (numVoxels < 0) {
 				printf("error : negative number of voxels : %d\n", numVoxels);
 				return nullptr;
@@ -158,7 +160,7 @@ std::shared_ptr<ISprite> ISprite::load(std::string spriteFilename)
 		else if (subChunk.id == ID_RGBA) {
 			// NOTICE : the color 0~254 are mapped to the palette 1~255
 			spriteStream.read(reinterpret_cast<char*>(palette + 1), sizeof(MV_RGBA) * 255);
-			
+
 			// NOTICE : skip the last unused color
 			MV_RGBA unused;
 			spriteStream.read(reinterpret_cast<char*>(&unused), sizeof(MV_RGBA));
@@ -166,14 +168,48 @@ std::shared_ptr<ISprite> ISprite::load(std::string spriteFilename)
 		spriteStream.seekg(subChunk.end, std::ios::beg);
 	}
 
-	std::shared_ptr<VoxelSprite> voxelSprite = std::make_shared<VoxelSprite>(spriteSize(size.x, size.z, size.y), spritePosition(0, 0, 0));
-	std::for_each(voxels.begin(), voxels.end(), [&palette, &voxelSprite](const MV_Voxel& mvVoxel)
+	// we flip vox z to our y
+	voxelSpriteSize = spriteSize(size.x, size.z, size.y);
+	unsigned vectorSize = size.x * size.z * size.y;
+	std::shared_ptr<std::vector<std::shared_ptr<ISpriteVoxel>>> spriteVoxels = std::make_shared<std::vector<std::shared_ptr<ISpriteVoxel>>>();
+	spriteVoxels->reserve(vectorSize);
+	for (unsigned index = 0; index < vectorSize; index++)
+	{
+		spriteVoxels->push_back(nullptr);
+	}
+
+	std::for_each(voxels.begin(), voxels.end(), [&palette, &spriteVoxels, voxelSpriteSize](const MV_Voxel& mvVoxel)
 	{
 		MV_RGBA* paletteColor = static_cast<MV_RGBA*>(&palette[mvVoxel.colorIndex]);
 		color voxelColor(paletteColor->r / 255.0f, paletteColor->g / 255.0f, paletteColor->b / 255.0f);
 		std::shared_ptr<ISpriteVoxel> voxel = std::make_shared<SpriteVoxel>(voxelColor, true);
-		voxelSprite->setVoxel(mvVoxel.x, mvVoxel.z, mvVoxel.y, voxel);
+		(*spriteVoxels)[getVoxelIndex(voxelSpriteSize, mvVoxel.x, mvVoxel.z, mvVoxel.y)] = voxel;
 	});
+	
+	return spriteVoxels;
+}
+
+std::shared_ptr<ISprite> ISprite::load(std::string spriteFilename, unsigned type)
+{
+	spriteSize size(0,0,0);
+	std::shared_ptr<std::vector<std::shared_ptr<ISpriteVoxel>>> voxels = loadSpriteVoxels(spriteFilename, size);
+	std::shared_ptr<VoxelSprite> voxelSprite = std::make_shared<VoxelSprite>(size, spriteVec3(0, 0, 0), *voxels);
+	voxelSprite->setType(type);
 	return voxelSprite;
 } 
 
+std::shared_ptr<ISprite> ISprite::load(const std::vector<std::string>& spriteFrameFilenames, float timeBetweenFrames, float frameChangeDeferral, unsigned type)
+{
+	spriteSize size(0, 0, 0);
+	std::vector<std::vector<std::shared_ptr<ISpriteVoxel>>> frameVoxels;
+
+	std::for_each(std::begin(spriteFrameFilenames), std::end(spriteFrameFilenames), [&frameVoxels, &size](std::string filename)
+	{
+		std::shared_ptr<std::vector<std::shared_ptr<ISpriteVoxel>>> voxels = loadSpriteVoxels(filename, size);
+		frameVoxels.push_back(*voxels);
+	});
+
+	std::shared_ptr<VoxelSprite> voxelSprite = std::make_shared<VoxelSprite>(size, spriteVec3(0, 0, 0), frameVoxels, timeBetweenFrames, frameChangeDeferral);
+	voxelSprite->setType(type);
+	return voxelSprite;
+}

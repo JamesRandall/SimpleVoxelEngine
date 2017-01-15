@@ -151,9 +151,12 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\AABBTree.h" />
+    <ClInclude Include="include\AABB.h" />
     <ClInclude Include="include\BehaviourFactory.h" />
     <ClInclude Include="include\color.h" />
     <ClInclude Include="include\GeometryUpdateRequest.h" />
+    <ClInclude Include="include\IAABB.h" />
     <ClInclude Include="include\ICamera.h" />
     <ClInclude Include="include\ICameraControllerInput.h" />
     <ClInclude Include="include\IChunk.h" />
@@ -161,6 +164,7 @@
     <ClInclude Include="include\IChunkManager.h" />
     <ClInclude Include="include\ILightSource.h" />
     <ClInclude Include="include\ISprite.h" />
+    <ClInclude Include="include\ISpriteCollisionSet.h" />
     <ClInclude Include="include\ISpriteManager.h" />
     <ClInclude Include="include\ISpriteVoxel.h" />
     <ClInclude Include="include\IVoxel.h" />
@@ -170,7 +174,10 @@
     <ClInclude Include="include\VoxelEngineException.h" />
     <ClInclude Include="include\worldSize.h" />
     <ClInclude Include="include\ISpriteBehaviour.h" />
+    <ClInclude Include="src\NullCameraController.h" />
     <ClInclude Include="src\FrameCounter.h" />
+    <ClInclude Include="include\SpriteCollision.h" />
+    <ClInclude Include="src\SpriteCollisionSet.h" />
     <ClInclude Include="src\SpriteManager.h" />
     <ClInclude Include="src\SpriteVoxel.h" />
     <ClInclude Include="src\Camera.h" />
@@ -190,6 +197,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\depends\src\glad\glad.c" />
+    <ClCompile Include="src\AABBTree.cpp" />
     <ClCompile Include="src\BehaviourFactory.cpp" />
     <ClCompile Include="src\SpriteManager.cpp" />
     <ClCompile Include="src\Camera.cpp" />

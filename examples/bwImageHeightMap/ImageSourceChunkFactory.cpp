@@ -4,7 +4,7 @@
 #include "GreyScaleVoxel.h"
 
 
-ImageSourceChunkFactory::ImageSourceChunkFactory(std::string sourceImageFilename, bool inverseHeight, bool inverseColor) : _image(sourceImageFilename.c_str()), _inverseHeight(inverseHeight), _inverseColor(inverseColor)
+ImageSourceChunkFactory::ImageSourceChunkFactory(std::string sourceImageFilename, bool inverseHeight, bool inverseColor, bool isBlackAndWhite) : _image(sourceImageFilename.c_str()), _inverseHeight(inverseHeight), _inverseColor(inverseColor), _isBlackAndWhite(isBlackAndWhite)
 {
 	
 }
@@ -16,7 +16,9 @@ ImageSourceChunkFactory::~ImageSourceChunkFactory()
 std::shared_ptr<IChunk> ImageSourceChunkFactory::construct(const IChunkManager* chunkManager, unsigned chunkX, unsigned chunkY, unsigned chunkZ)
 {
 	std::vector<std::shared_ptr<IVoxel>> voxels;
-	unsigned rgbValues[IChunk::Width][IChunk::Height];
+	unsigned rValues[IChunk::Width][IChunk::Height];
+	unsigned gValues[IChunk::Width][IChunk::Height];
+	unsigned bValues[IChunk::Width][IChunk::Height];
 
 	for (unsigned z = 0; z < IChunk::Depth; z++)
 	{
@@ -24,10 +26,14 @@ std::shared_ptr<IChunk> ImageSourceChunkFactory::construct(const IChunkManager* 
 		for (unsigned x = 0; x < IChunk::Width; x++)
 		{
 			unsigned worldX = chunkX * IChunk::Width + x;
-			if (worldX < (unsigned)_image.width() && worldZ < (unsigned)_image.height())
+			if (worldX < static_cast<unsigned>(_image.width()) && worldZ < static_cast<unsigned>(_image.height()))
 			{
 				unsigned char r = _image(worldX, worldZ, 0, 0);
-				rgbValues[x][z] = r;
+				unsigned char g = _image(worldX, worldZ, 0, 1);
+				unsigned char b = _image(worldX, worldZ, 0, 2);
+				rValues[x][z] = r;
+				gValues[x][z] = g;
+				bValues[x][z] = b;
 			}
 		}
 	}
@@ -40,18 +46,35 @@ std::shared_ptr<IChunk> ImageSourceChunkFactory::construct(const IChunkManager* 
 
 			for (unsigned x = 0; x < IChunk::Width; x++)
 			{
-				unsigned char r = (unsigned char)rgbValues[x][z];
-				float fractionalR = (float)r / 255.0f;
-				if (_inverseHeight) fractionalR = 1.0f - fractionalR;
-				if (_inverseColor) r = 255 - r;
-				unsigned colorWorldY = (unsigned)((chunkManager->getHeight() * IChunk::Height) * fractionalR);
-				if (colorWorldY > worldY)
+				if (_isBlackAndWhite)
 				{
-					voxels.push_back(std::make_shared<GreyScaleVoxel>(r));
+					unsigned char r = static_cast<unsigned char>(rValues[x][z]);
+					float fractionalR = static_cast<float>(r) / 255.0f;
+					if (_inverseHeight) fractionalR = 1.0f - fractionalR;
+					if (_inverseColor) r = 255 - r;
+					unsigned colorWorldY = static_cast<unsigned>((chunkManager->getHeight() * IChunk::Height) * fractionalR);
+					if (colorWorldY > worldY)
+					{
+						voxels.push_back(std::make_shared<GreyScaleVoxel>(r));
+					}
+					else
+					{
+						voxels.push_back(nullptr);
+					}
 				}
 				else
 				{
-					voxels.push_back(nullptr);
+					float luminance = 0.2126f * rValues[x][z] / 255.0f + 0.7152f * gValues[x][z] / 255.0f + 0.0722 * bValues[x][z] / 255.0f;
+					if (_inverseHeight) luminance = 1.0f - luminance;
+					unsigned colorWorldY = static_cast<unsigned>((chunkManager->getHeight() * IChunk::Height) * luminance);
+					if (colorWorldY > worldY)
+					{
+						voxels.push_back(std::make_shared<RgbVoxel>(rValues[x][z], gValues[x][z], bValues[x][z]));
+					}
+					else
+					{
+						voxels.push_back(nullptr);
+					}
 				}
 			}
 		}

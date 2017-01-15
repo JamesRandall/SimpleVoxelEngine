@@ -20,6 +20,7 @@ int main(int argc, char** argv) {
 	if (setupEnvironment(window)) return -1;
 
 	// Configure the voxel engine to display voxels based on a perlin noise algorithm and connect the camera to the mouse and keyboard
+	//std::shared_ptr<ImageSourceChunkFactory> chunkFactory = std::make_shared<ImageSourceChunkFactory>(".\\sourceImageVerySmall.bmp", false, false);
 	std::shared_ptr<ImageSourceChunkFactory> chunkFactory = std::make_shared<ImageSourceChunkFactory>(".\\sourceImageVerySmall.bmp", false, false);
 	worldSize worldDimensions(chunkFactory->requiredWidth(), 3 * IChunk::Height, chunkFactory->requiredDepth());
 	std::shared_ptr<ICameraControllerInput> cameraInputController = std::make_shared<MouseAndKeyboardCameraControllerInput>(window, 0.005f, 64.0f);

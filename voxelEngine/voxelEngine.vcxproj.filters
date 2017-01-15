@@ -87,6 +87,13 @@
     <ClInclude Include="include\ISpriteManager.h" />
     <ClInclude Include="src\FrameCounter.h" />
     <ClInclude Include="include\GeometryUpdateRequest.h" />
+    <ClInclude Include="src\NullCameraController.h" />
+    <ClInclude Include="include\ISpriteCollisionSet.h" />
+    <ClInclude Include="src\SpriteCollisionSet.h" />
+    <ClInclude Include="include\AABB.h" />
+    <ClInclude Include="include\IAABB.h" />
+    <ClInclude Include="src\AABBTree.h" />
+    <ClInclude Include="include\SpriteCollision.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Camera.cpp">
@@ -129,5 +136,6 @@
     <ClCompile Include="src\SpriteManager.cpp" />
     <ClCompile Include="src\BehaviourFactory.cpp" />
     <ClCompile Include="src\behaviours\VoxelatedConstructionSpriteBehaviour.cpp" />
+    <ClCompile Include="src\AABBTree.cpp" />
   </ItemGroup>
 </Project>

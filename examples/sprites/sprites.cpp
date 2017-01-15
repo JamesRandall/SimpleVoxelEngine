@@ -65,9 +65,9 @@ int main(int argc, char** argv) {
 				sprite = ISprite::load(spritePath + "fourHouses.vox");
 			}
 			float deferral = 0.5f + dice() / 5.0f;
-			voxelEngine->addSprite(sprite);
+			voxelEngine->getSpriteManager()->addSprite(sprite);
 			voxelEngine->getSpriteManager()->attachSpriteBehaviour(sprite, BehaviourFactory::GetVoxelatedConstructionBehaviour(dice() > 50, 0.012f), deferral);
-			sprite->setPosition(spritePosition(1 + x * IChunk::Width, 1, 1 + z * IChunk::Depth));
+			sprite->setPosition(spriteVec3(1 + x * IChunk::Width, 1, 1 + z * IChunk::Depth));
 
 			currentDeferral += deferralGap;
 		}

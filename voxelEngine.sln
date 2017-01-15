@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26014.0
+VisualStudioVersion = 15.0.26020.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "voxelEngine", "voxelEngine\voxelEngine.vcxproj", "{1E4DA0F4-01C6-48C4-942F-D6EC2FA0DD2A}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bwImageHeightMap", "examples\bwImageHeightMap\bwImageHeightMap.vcxproj", "{90FE57C4-1F2B-4C98-A680-620F60D9EA12}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sprites", "examples\sprites\sprites.vcxproj", "{0E8F7130-75DB-4563-9D16-EF53B5245BF4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "voxelInvaders", "examples\voxelInvaders\voxelInvaders.vcxproj", "{6C5B1F61-A7D8-4F1B-93C5-E1C085EFBAD0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,14 @@ Global
 		{0E8F7130-75DB-4563-9D16-EF53B5245BF4}.Release|x64.Build.0 = Release|x64
 		{0E8F7130-75DB-4563-9D16-EF53B5245BF4}.Release|x86.ActiveCfg = Release|Win32
 		{0E8F7130-75DB-4563-9D16-EF53B5245BF4}.Release|x86.Build.0 = Release|Win32
+		{6C5B1F61-A7D8-4F1B-93C5-E1C085EFBAD0}.Debug|x64.ActiveCfg = Debug|x64
+		{6C5B1F61-A7D8-4F1B-93C5-E1C085EFBAD0}.Debug|x64.Build.0 = Debug|x64
+		{6C5B1F61-A7D8-4F1B-93C5-E1C085EFBAD0}.Debug|x86.ActiveCfg = Debug|Win32
+		{6C5B1F61-A7D8-4F1B-93C5-E1C085EFBAD0}.Debug|x86.Build.0 = Debug|Win32
+		{6C5B1F61-A7D8-4F1B-93C5-E1C085EFBAD0}.Release|x64.ActiveCfg = Release|x64
+		{6C5B1F61-A7D8-4F1B-93C5-E1C085EFBAD0}.Release|x64.Build.0 = Release|x64
+		{6C5B1F61-A7D8-4F1B-93C5-E1C085EFBAD0}.Release|x86.ActiveCfg = Release|Win32
+		{6C5B1F61-A7D8-4F1B-93C5-E1C085EFBAD0}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -61,5 +71,6 @@ Global
 		{408D7086-63BC-4C87-B780-50674075BA71} = {8F1DF634-BD59-481F-B8CE-D60E40C31BA9}
 		{90FE57C4-1F2B-4C98-A680-620F60D9EA12} = {8F1DF634-BD59-481F-B8CE-D60E40C31BA9}
 		{0E8F7130-75DB-4563-9D16-EF53B5245BF4} = {8F1DF634-BD59-481F-B8CE-D60E40C31BA9}
+		{6C5B1F61-A7D8-4F1B-93C5-E1C085EFBAD0} = {8F1DF634-BD59-481F-B8CE-D60E40C31BA9}
 	EndGlobalSection
 EndGlobal

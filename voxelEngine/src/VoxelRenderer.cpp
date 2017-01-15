@@ -6,7 +6,7 @@
 #include "ILightSource.h"
 #include "ShaderManager.h"
 
-VoxelRenderer::VoxelRenderer()
+VoxelRenderer::VoxelRenderer(): _normalBuffer(0)
 {
 	_vertexBuffer = 0;
 	_colorBuffer = 0;
@@ -34,6 +34,10 @@ void VoxelRenderer::deleteBuffersIfNeeded() const
 	if (_colorBuffer != 0)
 	{
 		glDeleteBuffers(1, &_colorBuffer);
+	}
+	if (_visibilityBuffer != 0)
+	{
+		glDeleteBuffers(1, &_visibilityBuffer);
 	}
 }
 

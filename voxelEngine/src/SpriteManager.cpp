@@ -3,13 +3,17 @@
 #include "ISprite.h"
 #include "ICamera.h"
 #include "ILightSource.h"
-#include "ISpriteBehaviour.h"
 #include <glm/detail/type_vec3.hpp>
 #include "ISpriteVoxel.h"
+#include "ISpriteCollisionSet.h"
+#include "SpriteCollision.h"
+#include <forward_list>
 
+const unsigned DefaultCollisionPoolSize = 100;
 
-SpriteManager::SpriteManager()
+SpriteManager::SpriteManager() : _numberOfCollidingSprites(0), _collisionTree(DefaultCollisionPoolSize)
 {
+	_spritesRequiringCollisionUpdate.reserve(DefaultCollisionPoolSize);	
 }
 
 
@@ -102,3 +106,105 @@ void SpriteManager::requestUpdate(const spriteUpdateRequest& request)
 	}
 }
 
+void SpriteManager::addSpriteToCollisionSet(const std::shared_ptr<ISprite>& sprite)
+{
+	_collidingSprites.push_front(sprite);
+	_numberOfCollidingSprites++;
+	_collisionTree.insertObject(sprite);
+}
+
+void SpriteManager::markSpriteForCollisionSetUpdate(const std::shared_ptr<ISprite>& sprite)
+{
+	_spritesRequiringCollisionUpdate.push_back(sprite);
+}
+
+std::shared_ptr<std::forward_list<SpriteCollision>> SpriteManager::findBroadRangeCollisions(const std::forward_list<std::shared_ptr<ISprite>>& sprites) const
+{
+	std::shared_ptr<std::forward_list<SpriteCollision>> collisions = std::make_shared<std::forward_list<SpriteCollision>>();
+
+	std::for_each(sprites.begin(), sprites.end(), [this, &collisions](const std::shared_ptr<ISprite>& sprite)
+	{
+		auto aabbCollisions = _collisionTree.queryOverlaps(sprite);
+		std::for_each(aabbCollisions.begin(), aabbCollisions.end(), [&collisions, sprite](const std::shared_ptr<IAABB>& collidesWith)
+		{
+			collisions->push_front(SpriteCollision(sprite, std::static_pointer_cast<ISprite>(collidesWith)));
+		});
+	});
+
+	return collisions;
+}
+
+std::shared_ptr<std::forward_list<SpriteCollision>> SpriteManager::findAllCollisions() const
+{
+	return findCollisionsForSprites(_collidingSprites);
+}
+
+std::shared_ptr<std::forward_list<SpriteCollision>> SpriteManager::findCollisionsForSprite(const std::shared_ptr<ISprite>& sprite) const
+{
+	std::forward_list<std::shared_ptr<ISprite>> sprites;
+	sprites.push_front(sprite);
+	return findCollisionsForSprites(sprites);	
+}
+
+std::shared_ptr<std::forward_list<SpriteCollision>> SpriteManager::findCollisionsForSprites(const std::forward_list<std::shared_ptr<ISprite>>& sprites) const
+{
+	std::shared_ptr<std::forward_list<SpriteCollision>> broadRangeCollisions = findBroadRangeCollisions(sprites);
+	std::shared_ptr<std::forward_list<SpriteCollision>> narrowRangeCollisions = std::make_shared<std::forward_list<SpriteCollision>>();
+
+	std::for_each(broadRangeCollisions->begin(), broadRangeCollisions->end(), [&narrowRangeCollisions](const SpriteCollision& collision)
+	{
+		if (collision.getSpriteOne()->collidesWith(*collision.getSpriteTwo()))
+		{
+			narrowRangeCollisions->push_front(collision);
+		}
+	});
+
+	return narrowRangeCollisions;
+}
+
+void SpriteManager::tickComplete(float timeDelta)
+{
+	if (_spritesRequiringCollisionUpdate.empty()) return;
+
+	// at some point (unknown at the moment) it will be more efficient to rebuild the tree than shift the items around
+	// inside it but that will be at the very upper end (hence the 90% below).
+	// this needs measuring
+	if (_spritesRequiringCollisionUpdate.size() < _numberOfCollidingSprites * 9 / 10)
+	{
+		std::for_each(_spritesRequiringCollisionUpdate.begin(), _spritesRequiringCollisionUpdate.end(), [this](const std::shared_ptr<ISprite>& sprite)
+		{
+			_collisionTree.updateObject(sprite);
+		});
+	}
+	else
+	{
+		_collisionTree = AABBTree(std::max(static_cast<unsigned>(_numberOfCollidingSprites), DefaultCollisionPoolSize));
+		std::for_each(_collidingSprites.begin(), _collidingSprites.end(), [this](const std::shared_ptr<ISprite>& sprite)
+		{
+			_collisionTree.insertObject(sprite);
+		});
+	}
+	_spritesRequiringCollisionUpdate.erase(_spritesRequiringCollisionUpdate.begin(), _spritesRequiringCollisionUpdate.end());
+}
+
+void SpriteManager::removeSprite(const std::shared_ptr<ISprite>& sprite)
+{
+	_sprites.remove(sprite);
+	auto collidingIter = std::find(_collidingSprites.begin(), _collidingSprites.end(), sprite);
+	if (collidingIter != _collidingSprites.end())
+	{
+		_collidingSprites.remove(sprite);
+		_collisionTree.removeObject(sprite);
+		_numberOfCollidingSprites--;
+	}
+	auto collisionUpdateIter = std::find(_spritesRequiringCollisionUpdate.begin(), _spritesRequiringCollisionUpdate.end(), sprite);
+	if (collisionUpdateIter != _spritesRequiringCollisionUpdate.end())
+	{
+		_spritesRequiringCollisionUpdate.erase(collisionUpdateIter);
+	}
+	auto requiringRebuildIter = std::find(_spritesRequiringRebuild.begin(), _spritesRequiringRebuild.end(), sprite);
+	if (requiringRebuildIter != _spritesRequiringRebuild.end())
+	{
+		_spritesRequiringRebuild.erase(requiringRebuildIter);
+	}
+}

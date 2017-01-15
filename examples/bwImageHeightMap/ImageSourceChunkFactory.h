@@ -17,8 +17,9 @@ class ImageSourceChunkFactory : public IChunkFactory
 	cimg_library::CImg<unsigned char> _image;
 	bool _inverseHeight;
 	bool _inverseColor;
+	bool _isBlackAndWhite;
 public:
-	ImageSourceChunkFactory(std::string sourceImageFilename, bool inverseHeight=false, bool inverseColor=false);
+	ImageSourceChunkFactory(std::string sourceImageFilename, bool inverseHeight=false, bool inverseColor=false, bool isBlackAndWhite=false);
 	virtual ~ImageSourceChunkFactory();
 	
 	unsigned int requiredWidth() const { return _image.width() + ((_image.width() % IChunk::Width) > 0 ? (16 - (_image.width() % IChunk::Width)) : 0); }

@@ -14,6 +14,8 @@ struct GLFWwindow;
 
 class SpriteManager;
 
+typedef std::function<void(float timeDelta)> tickFunction;
+
 class VoxelEngine
 {
 	GLFWwindow *_window;
@@ -32,9 +34,8 @@ public:
 		const std::shared_ptr<ICameraControllerInput>& cameraInputController,
 		const std::shared_ptr<ILightSource>& lightSource);
 	~VoxelEngine();
-	void tick();
+	float tick(tickFunction updateCompleteFunc=nullptr, tickFunction tickCompleteFunc=nullptr);
 	worldSize getWorldSize() const { return worldSize(_chunkManager->getWidth() * IChunk::Width, _chunkManager->getHeight() * IChunk::Height, _chunkManager->getDepth() * IChunk::Depth); }
-	void addSprite(const std::shared_ptr<ISprite>& sprite) const;
 	std::shared_ptr<ISpriteManager> getSpriteManager() const;
 };
 

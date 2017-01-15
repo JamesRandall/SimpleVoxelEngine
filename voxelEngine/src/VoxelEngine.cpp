@@ -7,6 +7,7 @@
 #include "Camera.h"
 #include "SpriteManager.h"
 #include "FrameCounter.h"
+#include "NullCameraController.h"
 
 VoxelEngine::VoxelEngine(GLFWwindow* window,
 	std::string shaderPath,
@@ -18,7 +19,7 @@ VoxelEngine::VoxelEngine(GLFWwindow* window,
 		_window(window),
 		_chunkManager(chunkFactory == nullptr ? nullptr : std::make_shared<ChunkManager>(chunkFactory, worldSize.voxelsWide/IChunk::Width, worldSize.voxelsHigh/IChunk::Height, worldSize.voxelsDeep/IChunk::Depth)),
 		_camera(std::make_shared<Camera>(cameraConfiguration.x, cameraConfiguration.y, cameraConfiguration.z, cameraConfiguration.horizontalAngle, cameraConfiguration.verticalAngle, cameraConfiguration.fieldOfView, cameraConfiguration.range, cameraConfiguration.ratio)),
-		_cameraInputController(cameraInputController),
+		_cameraInputController(cameraInputController != nullptr ? cameraInputController : std::make_shared<NullCameraController>()),
 		_lightSource(lightSource),
 		_spriteManager(std::make_shared<SpriteManager>()),
 		_lastTickTime(-1)
@@ -30,7 +31,7 @@ VoxelEngine::~VoxelEngine()
 {
 }
 
-void VoxelEngine::tick()
+float VoxelEngine::tick(tickFunction updateCompleteFunc, tickFunction tickCompleteFunc)
 {
 	static FrameCounter frameCounter;
 	frameCounter.tick();
@@ -40,6 +41,7 @@ void VoxelEngine::tick()
 	
 	_cameraInputController->update(timeDelta);
 	_camera->update(*_cameraInputController);
+	
 	if (_chunkManager != nullptr)
 	{
 		_chunkManager->tick(timeDelta);		
@@ -47,6 +49,11 @@ void VoxelEngine::tick()
 	if (_spriteManager != nullptr)
 	{
 		_spriteManager->tick(timeDelta);
+	}
+
+	if (updateCompleteFunc != nullptr)
+	{
+		updateCompleteFunc(timeDelta);
 	}
 
 	if (_chunkManager != nullptr)
@@ -65,12 +72,16 @@ void VoxelEngine::tick()
 	else
 	{
 		_lastTickTime = frameCurrentTime;
-	}	
-}
+	}
 
-void VoxelEngine::addSprite(const std::shared_ptr<ISprite>& sprite) const
-{
-	_spriteManager->addSprite(sprite);
+	_spriteManager->tickComplete(timeDelta);
+
+	if (tickCompleteFunc != nullptr)
+	{
+		tickCompleteFunc(timeDelta);
+	}
+
+	return timeDelta;
 }
 
 std::shared_ptr<ISpriteManager> VoxelEngine::getSpriteManager() const
