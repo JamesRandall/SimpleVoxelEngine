@@ -60,3 +60,14 @@ For a refresher on C++ I basically skim read these:
 * [Effective Modern C++](https://www.amazon.co.uk/gp/product/1491903996)
 
 No doubt I've made lots of mistakes with C++ but after 18 years it mostly felt like putting on a comfy, if slightly itchy, pair of socks!
+
+## Linux
+To build in Linux:
+
+```
+$ sudo apt-get install glew-utils libglew-dev libglm-dev libglfw3-dev
+$ mv depends/src/glad/glad.c depends/src/glad/glad.cpp
+$ mv depends/include/glm depends/include/_glm
+$ mkdir build ; cd build
+$ make -j 8
+```

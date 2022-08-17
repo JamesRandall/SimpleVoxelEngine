@@ -6,7 +6,7 @@ project(
   LANGUAGES CXX)
 
 
-add_library(voxelengine ../depends/src/glad/glad.c src/AABBTree.cpp
+add_library(voxelengine src/AABBTree.cpp
 src/AABBTree.h
 src/BehaviourFactory.cpp
 src/Camera.cpp
