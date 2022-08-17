@@ -1,7 +1,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "VoxelRenderer.h"
-#include "controls.hpp"
+#include "Controls.hpp"
 #include "ICamera.h"
 #include "ILightSource.h"
 #include "ShaderManager.h"

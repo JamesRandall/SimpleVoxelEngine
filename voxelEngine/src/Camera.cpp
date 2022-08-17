@@ -2,6 +2,8 @@
 #include "ICameraControllerInput.h"
 #include <glm/gtc/matrix_transform.inl>
 
+#include "glm/gtc/matrix_transform.hpp"
+
 // default camera position is at world origin looking towards -z
 Camera::Camera() : Camera(0.0f, 0.0f, 0.0f, 3.14f, 0.0f, 60.0f, 200.0f)
 {
@@ -59,6 +61,8 @@ void Camera::update(const ICameraControllerInput& controllerInput)
 	// projection matrix: field of View, display ratio (4:3), display range
 	_projectionMatrix = glm::perspective(glm::radians(_fieldOfView), _ratio, _nearDepth, _farDepth);
 	// Camera matrix
+
+	
 	_viewMatrix = glm::lookAt(
 		_position,           // Camera is here
 		_position + direction, // and looks here : at the same position, plus "direction"

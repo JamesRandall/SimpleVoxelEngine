@@ -1,6 +1,7 @@
 #include "ISprite.h"
 #include <fstream>
 #include <vector>
+#include <cstring>
 #include "VoxelSprite.h"
 #include <algorithm>
 #include "SpriteVoxel.h"
@@ -97,7 +98,7 @@ std::shared_ptr<std::vector<std::shared_ptr<ISpriteVoxel>>> loadSpriteVoxels(std
 	std::vector<MV_Voxel> voxels;
 	MV_RGBA palette[256];
 
-	memcpy(palette, mv_default_palette, sizeof(mv_default_palette));
+	std::memcpy(palette, mv_default_palette, sizeof(mv_default_palette));
 
 	std::ifstream spriteStream(spriteFilename, std::ios::in | std::ios::binary);
 	if (!spriteStream.is_open())

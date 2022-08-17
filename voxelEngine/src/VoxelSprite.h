@@ -58,7 +58,7 @@ class VoxelSprite : public ISprite, public IVoxelContainer, public std::enable_s
 	VoxelSpriteFramePtr getCurrentFrame() const { return _frames[_frameIndex]; }
 
 public:
-	VoxelSprite::VoxelSprite(const spriteSize& spriteSize, const spriteVec3& spritePosition);
+	VoxelSprite(const spriteSize& spriteSize, const spriteVec3& spritePosition);
 	VoxelSprite(const spriteSize& spriteSize, const spriteVec3& spritePosition, const std::vector<std::shared_ptr<ISpriteVoxel>>& voxels);
 	VoxelSprite(const spriteSize& spriteSize, const spriteVec3& spritePosition, const std::vector<std::vector<std::shared_ptr<ISpriteVoxel>>>& frameVoxels, float timeBetweenFrames, float frameChangeDeferral=0.0f);
 	spriteSize getSize() const override { return _size; };
@@ -74,8 +74,8 @@ public:
 	void render(const ICamera& camera, const ILightSource& light) const override;
 	void rebuildGeometry() override;
 	void prepareRenderer() override;
-	std::shared_ptr<IVoxel> VoxelSprite::getVoxel(unsigned int x, unsigned int y, unsigned int z) const override;
-	void VoxelSprite::setVoxel(unsigned int x, unsigned int y, unsigned int z, const std::shared_ptr<ISpriteVoxel>& voxel) const;
+	std::shared_ptr<IVoxel> getVoxel(unsigned int x, unsigned int y, unsigned int z) const override;
+	void setVoxel(unsigned int x, unsigned int y, unsigned int z, const std::shared_ptr<ISpriteVoxel>& voxel) const;
 	unsigned getContainerWidthInVoxels() const override { return _size.width; }
 	unsigned getContainerHeightInVoxels() const override { return _size.height; }
 	unsigned getContainerDepthInVoxels() const override { return _size.depth; }
