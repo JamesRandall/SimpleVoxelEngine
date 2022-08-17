@@ -1,10 +1,13 @@
+#include "glad/glad.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "VoxelRenderer.h"
-#include "controls.hpp"
+#include "Controls.hpp"
 #include "ICamera.h"
 #include "ILightSource.h"
 #include "ShaderManager.h"
+
+#include <iostream>
 
 VoxelRenderer::VoxelRenderer(): _normalBuffer(0)
 {
@@ -88,6 +91,7 @@ void VoxelRenderer::rebindVisibility(const VoxelContainerGeometry& chunkGeometry
 
 void VoxelRenderer::render(const ICamera& camera, const VoxelContainerGeometry& chunkGeometry, const ILightSource& light, glm::mat4 modelMatrix) const
 {
+	
 	if (chunkGeometry.needsRendering())
 	{
 		glBindVertexArray(_vertexArrayId);
@@ -101,8 +105,9 @@ void VoxelRenderer::render(const ICamera& camera, const VoxelContainerGeometry& 
 		GLuint lightPowerID = glGetUniformLocation(shaderId, "LightPower");
 		GLuint lightColorID = glGetUniformLocation(shaderId, "LightColor");
 
+		std::cout << "glUseProgram" << std::endl;
 		glUseProgram(shaderId);
-
+std::cout << "~glUseProgram" << std::endl;
 		// camera
 		glm::mat4 ProjectionMatrix = camera.getProjectionMatrix();
 		glm::mat4 ViewMatrix = camera.getViewMatrix();
@@ -164,8 +169,9 @@ void VoxelRenderer::render(const ICamera& camera, const VoxelContainerGeometry& 
 			0,
 			(void*)0
 		);
-
+std::cout << "glDrawArrays" << std::endl;
 		glDrawArrays(GL_TRIANGLES, 0, _numberOfVertices);
+		std::cout << "~glDrawArrays" << std::endl;
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
 	}

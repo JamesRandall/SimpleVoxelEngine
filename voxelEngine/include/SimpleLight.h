@@ -8,7 +8,7 @@ class SimpleLight : public ILightSource
 	float _power;
 public:
 	SimpleLight(const lightSourcePosition& position, const color& color, float power) : _position(position), _color(color), _power(power) { }
-	__thiscall ~SimpleLight() override { };
+	virtual ~SimpleLight() override { };
 	lightSourcePosition getPosition() const override { return _position; }
 	float getPower() const override { return _power;  }
 	color getColor() const override { return _color; }

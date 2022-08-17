@@ -1,4 +1,5 @@
 #include "PerlinNoise.h"
+#include <cmath>
 
 PerlinNoise::PerlinNoise(int repeat) : _repeat(repeat)
 {
@@ -47,9 +48,9 @@ double PerlinNoise::octavePerlin(double x, double y, double z, int octaves, doub
 double PerlinNoise::perlin(double x, double y, double z)
 {
 	if (_repeat > 0) {									
-		x = fmod(x, _repeat);
-		y = fmod(y, _repeat);
-		z = fmod(z, _repeat);
+		x = std::fmod(x, _repeat);
+		y = std::fmod(y, _repeat);
+		z = std::fmod(z, _repeat);
 	}
 
 	int xi = (int)x & 255;								

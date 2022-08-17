@@ -14,7 +14,7 @@ static void error_callback(int error, const char* description);
 int main(int argc, char** argv) {
 	std::string programPath(argv[0]);
 	size_t lastSlash = programPath.find_last_of('\\');
-	std::string shaderPath = programPath.substr(0, lastSlash) + "\\shaders\\";
+	std::string shaderPath = "shaders/";
 
 	GLFWwindow* window;
 	if (setupEnvironment(window)) return -1;

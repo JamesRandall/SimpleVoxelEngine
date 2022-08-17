@@ -1,4 +1,4 @@
-#include <glad/glad.h>
+#include "glad/glad.h"
 #include <glfw/glfw3.h>
 #include "VoxelEngine.h"
 #include "ImageSourceChunkFactory.h"
@@ -14,14 +14,14 @@ static void error_callback(int error, const char* description);
 int main(int argc, char** argv) {
 	std::string programPath(argv[0]);
 	size_t lastSlash = programPath.find_last_of('\\');
-	std::string shaderPath = programPath.substr(0, lastSlash) + "\\shaders\\";
+	std::string shaderPath = "shaders/";
 
 	GLFWwindow* window;
 	if (setupEnvironment(window)) return -1;
 
 	// Configure the voxel engine to display voxels based on a perlin noise algorithm and connect the camera to the mouse and keyboard
-	//std::shared_ptr<ImageSourceChunkFactory> chunkFactory = std::make_shared<ImageSourceChunkFactory>(".\\sourceImageVerySmall.bmp", false, false);
-	std::shared_ptr<ImageSourceChunkFactory> chunkFactory = std::make_shared<ImageSourceChunkFactory>(".\\sourceImageVerySmall.bmp", false, false);
+	//std::shared_ptr<ImageSourceChunkFactory> chunkFactory = std::make_shared<ImageSourceChunkFactory>("sourceImageVerySmall.bmp", false, false);
+	std::shared_ptr<ImageSourceChunkFactory> chunkFactory = std::make_shared<ImageSourceChunkFactory>("sourceImageVerySmall.bmp", false, false);
 	worldSize worldDimensions(chunkFactory->requiredWidth(), 3 * IChunk::Height, chunkFactory->requiredDepth());
 	std::shared_ptr<ICameraControllerInput> cameraInputController = std::make_shared<MouseAndKeyboardCameraControllerInput>(window, 0.005f, 64.0f);
 	std::shared_ptr<ILightSource> light = std::make_shared<SimpleLight>(lightSourcePosition(50.0f, 400.0f, 50.0f), color(1.0f, 1.0f, 1.0f), 128000.0f);

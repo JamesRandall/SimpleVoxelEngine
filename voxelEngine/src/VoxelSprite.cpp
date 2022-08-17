@@ -4,6 +4,7 @@
 #include "ISpriteBehaviour.h"
 #include "ISpriteManager.h"
 #include <glm/gtc/matrix_transform.inl>
+#include <glm/gtc/matrix_transform.hpp>
 #include <algorithm>
 
 VoxelSprite::VoxelSprite(const spriteSize& spriteSize, const spriteVec3& spritePosition) :
@@ -105,6 +106,7 @@ void VoxelSprite::render(const ICamera& camera, const ILightSource& light) const
 {
 	const VoxelSpriteFramePtr& frame = getCurrentFrame();
 	if (frame->renderer == nullptr) return;
+	
 	frame->renderer->render(camera, *frame->geometry, light, glm::translate(glm::mat4(1.0f), glm::vec3(_position.x, _position.y, _position.z)));
 }
 

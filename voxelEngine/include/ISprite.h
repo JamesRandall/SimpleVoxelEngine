@@ -6,6 +6,7 @@
 #include "AABB.h"
 #include <vector>
 #include "IAABB.h"
+#include <glm/vec3.hpp>
 #include <glm/detail/type_vec3.hpp>
 
 class ISpriteBehaviour;
